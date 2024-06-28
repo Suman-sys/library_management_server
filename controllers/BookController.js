@@ -35,9 +35,8 @@ const updateBook = async (req, res, next) => {
         let book = await Book.findById(req.params.id);
         if(!book) throw new createError(404, "Book not found");
         const { name, author } = req.body;
-        book = new Book({name, author});
-        const updatedBook = await Book.findByIdAndUpdate(req.params.id, book, {new: true});
-        res.status(200).json(updateBook);
+        const updatedBook = await Book.findByIdAndUpdate(req.params.id, {$set: {name, author}}, {new: true});
+        res.status(200).json(updatedBook);
     }catch(err){
         next(err);
     }

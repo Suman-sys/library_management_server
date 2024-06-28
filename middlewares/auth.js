@@ -2,14 +2,16 @@ const jwt = require('jsonwebtoken');
 const User = require('../model/User');
 
 const auth = async (req, res, next) => {
-    const token = req.header('Authentication')
+    const token = req.headers["authorization"]
     if (!token) return res.status(401).json({ message: 'No token, access denied' });
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        
         req.user = await User.findById(decoded.id).select('-password');
         next();
     } catch (error) {
+        console.log("Error: ", error);
         res.status(401).json({ message: 'Invalid token' });
     }
 };

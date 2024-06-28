@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post("/issue", auth, admin, issueBook)
 router.post("/return", auth, admin,  returnBook);
-router.post("/transaction-history", auth, getMyTransactionHistory);
+router.get("/transaction-history", auth, getMyTransactionHistory);
 
 module.exports = router;
